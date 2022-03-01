@@ -1,37 +1,26 @@
 package com.company;
 
-import java.util.Locale;
 import java.util.Scanner;
 
 public class Main {
-
-    Scanner sc = new Scanner(System.in);
-
-    public static final String ANSI_RESET = "\u001B[0m";
-    public static final String ANSI_BLACK = "\u001B[30m";
-    public static final String ANSI_BLACK_BACKGROUND = "\u001B[40m";
-    public static final String ANSI_RED = "\u001B[31m";
-    public static final String ANSI_RED_BACKGROUND = "\u001B[41m";
-    public static final String ANSI_GREEN = "\u001B[32m";
-    public static final String ANSI_GREEN_BACKGROUND = "\u001B[42m";
-    public static final String ANSI_YELLOW = "\u001B[33m";
-    public static final String ANSI_YELLOW_BACKGROUND = "\u001B[43m";
-    public static final String ANSI_BLUE = "\u001B[34m";
-    public static final String ANSI_BLUE_BACKGROUND = "\u001B[44m";
-    public static final String ANSI_PURPLE = "\u001B[35m";
-    public static final String ANSI_PURPLE_BACKGROUND = "\u001B[45m";
-    public static final String ANSI_CYAN = "\u001B[36m";
-    public static final String ANSI_CYAN_BACKGROUND = "\u001B[46m";
-    public static final String ANSI_WHITE = "\u001B[37m";
-    public static final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
 
     enum encryptionType {
         Caesar,
         Vigenere
     }
-    public encryptionType selectedEncryptionType;
 
-    public int caesarDisplacement = 3;
+    public char[] chars = { ' ', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'X', 'Y', 'Z', 'Æ', 'Ø', 'Å' };
+
+    Scanner sc = new Scanner(System.in);
+
+    public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_RED = "\u001B[31m";
+    public static final String ANSI_YELLOW = "\u001B[33m";
+    public static final String ANSI_BLUE = "\u001B[34m";
+    public static final String ANSI_GREEN = "\033[0;32m";
+
+    public encryptionType selectedEncryptionType;
+    public int selectedCaesarDisplacement;
 
     public static void main(String[] args) {
         Main main = new Main();
@@ -40,31 +29,32 @@ public class Main {
     public void runProgram()
     {
         System.out.println("Running encryption/decryption program..");
-        askForCipherType();
+        askForCypherType();
     }
-    public void askForCipherType()
+    public void askForCypherType()
     {
-        System.out.println(ANSI_BLUE + "Please enter a cipher type." + ANSI_RESET);
-        System.out.println(ANSI_RED + "1" + ANSI_BLUE + ": Caesar cipher" + ANSI_RESET);
-        System.out.println(ANSI_RED + "2" + ANSI_BLUE + ": Vigenère cipher" + ANSI_RESET);
+        System.out.println("Please enter a cypher type." + ANSI_RESET);
+        System.out.println(ANSI_RED + "1" + ANSI_BLUE + ": Caesar cypher" + ANSI_RESET);
+        System.out.println(ANSI_RED + "2" + ANSI_BLUE + ": Vigenère cypher" + ANSI_RESET);
         System.out.println(ANSI_RED + "0" + ANSI_BLUE + ": Exit program" + ANSI_RESET);
         System.out.print(ANSI_RED + "Enter" + ANSI_RESET + " a " + ANSI_BLUE + "cypher type: " + ANSI_RESET);
         boolean answered = false;
         while (!answered)
         {
-            System.out.println(ANSI_BLUE + "What cipher do you want to use?" + ANSI_RESET);
             String answer;
             answer = sc.nextLine();
             switch (answer) {
                 case "1" -> {
-                    System.out.println(ANSI_BLUE + "Picked Caesar cipher." + ANSI_RESET);
+                    System.out.println(ANSI_GREEN + "Picked Caesar cypher." + ANSI_RESET);
                     selectedEncryptionType = encryptionType.Caesar;
                     answered = true;
+                    setEncryptOrDecrypt();
                 }
                 case "2" -> {
-                    System.out.println(ANSI_RED + "Picked Vigenère cipher." + ANSI_RESET);
+                    System.out.println(ANSI_GREEN + "Picked Vigenère cypher." + ANSI_RESET);
                     selectedEncryptionType = encryptionType.Vigenere;
                     answered = true;
+                    setEncryptOrDecrypt();
                 }
                 case "0" -> {
                     System.out.println(ANSI_RED + "Exiting encryption/decryption program." + ANSI_RESET);
@@ -77,43 +67,117 @@ public class Main {
             }
         }
     }
-    public void askEncryptOrDecrypt()
+    public void setEncryptOrDecrypt()
     {
         System.out.println("Do you want to encrypt or decrypt?");
+        System.out.println(ANSI_RED + "1" + ANSI_BLUE + ": Encrypt" + ANSI_RESET);
+        System.out.println(ANSI_RED + "2" + ANSI_BLUE + ": Decrypt" + ANSI_RESET);
+        System.out.println(ANSI_RED + "0" + ANSI_BLUE + ": Exit menu" + ANSI_RESET);
+        System.out.print(ANSI_RED + "Enter" + ANSI_RESET + " an " + ANSI_BLUE + "action: " + ANSI_RESET);
+        boolean answered = false;
+        while (!answered)
+        {
+            String answer;
+            answer = sc.next();
+            switch (answer) {
+                case "1" -> {
+                    System.out.println(ANSI_GREEN + "Picked Encryption." + ANSI_RESET);
+                    answered = true;
+                    switch (selectedEncryptionType) {
+                        case Caesar -> {
+                            setCaesarDisplacement();
+                            setCaesarEncryptionString();
+                        }
+                        case Vigenere -> {
+                            // call Vigenere encryption
 
+                        }
+                    }
+                }
+                case "2" -> {
+                    System.out.println(ANSI_GREEN + "Picked Decryption." + ANSI_RESET);
+                    answered = true;
+                    switch (selectedEncryptionType) {
+                        case Caesar -> {
+                            setCaesarDisplacement();
+                            setCaesarDecryptionString();
+                        }
+                        case Vigenere -> {
+                            // call Vigenere decryption
+
+                        }
+                    }
+
+                }
+                case "0" -> {
+                    System.out.println(ANSI_RED + "Exiting encryption/decryption menu." + ANSI_RESET);
+                    answered = true;
+                    askForCypherType();
+                }
+            }
+            if (!answered)
+            {
+                System.out.println(ANSI_YELLOW + "You can only enter '" + ANSI_RED + "1" + ANSI_YELLOW + "', '" + ANSI_RED + "2" + ANSI_YELLOW + "' or '" + ANSI_RED + "0" + ANSI_YELLOW + "'. You entered: " + ANSI_RED + answer + ANSI_YELLOW + ". Try again." + ANSI_RESET);
+            }
+        }
     }
     public void setCaesarDisplacement()
     {
         System.out.print("Enter how much do you want to displace the letters?: ");
+        selectedCaesarDisplacement = sc.nextInt();
     }
-    public String encryptCaesarCipher(String text, int displacement)
+    public void setCaesarEncryptionString()
     {
-        System.out.print("Enter text to be encrypted by the Caesar Cipher: ");
-        sc.nextLine();
-
+        System.out.print("Enter text to be encrypted by the Caesar cypher: ");
+        Scanner sc = new Scanner(System.in);
+        String text = sc.nextLine();
+        sc.close();
+        System.out.println(encryptCaesarCypher(text, selectedCaesarDisplacement));
+    }
+    public String encryptCaesarCypher(String text, int displacement)
+    {
         String encryptedText = "";
-
         for (int i = 0; i < text.length(); i++)
         {
             // encrypt letter
-            encryptedText = "";
+            encryptedText += text.substring(i, i+1);
         }
 
         return encryptedText;
     }
-    public String decryptCaesarCipher(String text, int displacement)
+    public int convertToNumber(char ch)
     {
-        System.out.print("Enter text to be decrypted by the Caesar Cipher: ");
-        sc.nextLine();
-
+        int returnValue = -1;
+        for (int i = 0; i < chars.length; i++)
+        {
+            if (ch == chars[i])
+            {
+                returnValue = i;
+            }
+        }
+        return returnValue;
+    }
+    public char convertToLetter(int number)
+    {
+        return chars[number];
+    }
+    public void setCaesarDecryptionString()
+    {
+        System.out.print("Enter text to be encrypted by the Caesar cypher: ");
+        sc.close();
+        Scanner sc = new Scanner(System.in);
+        String text = sc.next();
+        sc.close();
+        System.out.println(decryptCaesarCypher(text, selectedCaesarDisplacement));
+    }
+    public String decryptCaesarCypher(String text, int displacement)
+    {
         String decryptedText = "";
-
         for (int i = 0; i < text.length(); i++)
         {
             // decrypt letter
             decryptedText = "";
         }
-
         return decryptedText;
     }
 }
