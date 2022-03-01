@@ -9,6 +9,7 @@ public class Main {
         Caesar,
         Vigenere,
         Number,
+        Substitution,
         Enigma
     }
 
