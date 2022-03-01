@@ -179,7 +179,7 @@ public class Main {
             if (yesNo.equals("Y")) {
                 System.out.println(ANSI_GREEN + "Ok. Restarting program." + ANSI_RESET);
                 answeredYesNo = true;
-                runProgram();
+                askForCypherType();
             }
             else if (yesNo.equals("N")) {
                 System.out.println(ANSI_RED + "Exiting program." + ANSI_RESET);
