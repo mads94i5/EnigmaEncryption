@@ -7,7 +7,9 @@ public class Main {
 
     enum encryptionType {
         Caesar,
-        Vigenere
+        Vigenere,
+        Number,
+        Enigma
     }
 
     public char[] chars = { ' ', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'X', 'Y', 'Z', 'Æ', 'Ø', 'Å' };
@@ -29,7 +31,6 @@ public class Main {
     }
     public void runProgram() {
         System.out.println("Running encryption/decryption program..");
-        sc = new Scanner(System.in);
         askForCypherType();
     }
     public void askForCypherType() {
@@ -41,8 +42,8 @@ public class Main {
         while (!answered)
         {
             System.out.print(ANSI_RED + "Enter" + ANSI_RESET + " a " + ANSI_BLUE + "cypher type: " + ANSI_RESET);
-            String answer;
-            answer = sc.nextLine();
+            sc = new Scanner(System.in);
+            String answer = sc.nextLine();
             switch (answer) {
                 case "1" -> {
                     System.out.println(ANSI_GREEN + "Picked Caesar cypher." + ANSI_RESET);
@@ -76,8 +77,8 @@ public class Main {
         while (!answered)
         {
             System.out.print(ANSI_RED + "Enter" + ANSI_RESET + " an " + ANSI_BLUE + "action: " + ANSI_RESET);
-            String answer;
-            answer = sc.next();
+            sc = new Scanner(System.in);
+            String answer = sc.nextLine();
             switch (answer) {
                 case "1" -> {
                     System.out.println(ANSI_GREEN + "Picked Encryption." + ANSI_RESET);
@@ -122,12 +123,13 @@ public class Main {
     }
     public void setCaesarDisplacement() {
         System.out.print("Enter how much do you want to displace the letters?: ");
+        sc = new Scanner(System.in);
         selectedCaesarDisplacement = sc.nextInt();
     }
     public void setCaesarEncryptionString() {
         System.out.print("Enter text to be encrypted by the Caesar cypher: ");
-        Scanner scanner = new Scanner(System.in);
-        String text = scanner.nextLine().toUpperCase();
+        sc = new Scanner(System.in);
+        String text = sc.nextLine().toUpperCase();
         System.out.println(ANSI_GREEN + "Encrypted text: " + ANSI_RESET + encryptCaesarCypher(text, selectedCaesarDisplacement));
         askToRunAgain();
     }
@@ -161,8 +163,8 @@ public class Main {
     }
     public void setCaesarDecryptionString() {
         System.out.print("Enter text to be decrypted by the Caesar cypher: ");
-        Scanner scanner = new Scanner(System.in);
-        String text = scanner.nextLine().toUpperCase();
+        sc = new Scanner(System.in);
+        String text = sc.nextLine().toUpperCase();
         System.out.println(ANSI_GREEN + "Decrypted text: " + ANSI_RESET + decryptCaesarCypher(text, selectedCaesarDisplacement));
         askToRunAgain();
     }
@@ -184,15 +186,16 @@ public class Main {
         boolean answeredYesNo = false;
         while (!answeredYesNo)
         {
-            System.out.printf(ANSI_BLUE + "Do you want to run the program again? (" + ANSI_RED + "Y" + ANSI_BLUE + "/" + ANSI_RED + "N" + ANSI_BLUE + "): " + ANSI_RESET);
-            String yesNo = sc.next();
-            if ((yesNo.equals("Y")) || (yesNo.equals("y")))
+            System.out.print(ANSI_BLUE + "Do you want to run the program again? (" + ANSI_RED + "Y" + ANSI_BLUE + "/" + ANSI_RED + "N" + ANSI_BLUE + "): " + ANSI_RESET);
+            sc = new Scanner(System.in);
+            String yesNo = sc.next().toUpperCase();
+            if (yesNo.equals("Y"))
             {
                 System.out.println(ANSI_GREEN + "Ok. Restarting program." + ANSI_RESET);
                 answeredYesNo = true;
                 runProgram();
             }
-            else if ((yesNo.equals("N")) || (yesNo.equals("n")))
+            else if (yesNo.equals("N"))
             {
                 System.out.println(ANSI_RED + "Exiting program." + ANSI_RESET);
                 answeredYesNo = true;
