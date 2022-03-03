@@ -130,12 +130,18 @@ public class Main {
     public String encryptCaesarCypher(String text, int displacement) {
         String encryptedText = "";
         for (int i = 0; i < text.length(); i++) {
-            if (displacement + convertToNumber(text.charAt(i)) < chars.length) {
-                encryptedText += convertToLetter(convertToNumber(text.charAt(i)) + displacement);
+            if (convertToNumber(text.charAt(i)) != 0)
+            {
+                if (convertToNumber(text.charAt(i)) + displacement < chars.length) {
+                    encryptedText += convertToLetter(convertToNumber(text.charAt(i)) + displacement);
+                }
+                else {
+                    int newPlacement = (convertToNumber(text.charAt(i)) + displacement) - chars.length;
+                    encryptedText += convertToLetter(newPlacement);
+                }
             }
             else {
-                int newPlacement = (convertToNumber(text.charAt(i)) + displacement) - chars.length;
-                encryptedText += convertToLetter(newPlacement);
+                encryptedText += " ";
             }
         }
         return encryptedText;
@@ -161,12 +167,19 @@ public class Main {
     public String decryptCaesarCypher(String text, int displacement) {
         String decryptedText = "";
         for (int i = 0; i < text.length(); i++) {
-            if (convertToNumber(text.charAt(i)) - displacement >= 0) {
-                decryptedText += convertToLetter(convertToNumber(text.charAt(i)) - displacement);
+            if (convertToNumber(text.charAt(i)) != 0)
+            {
+                if (convertToNumber(text.charAt(i)) - displacement >= 0) {
+                    decryptedText += convertToLetter(convertToNumber(text.charAt(i)) - displacement);
+                }
+                else {
+                    int newPlacement = (convertToNumber(text.charAt(i)) - displacement) + chars.length;
+                    decryptedText += convertToLetter(newPlacement);
+                }
             }
-            else {
-                int newPlacement = (convertToNumber(text.charAt(i)) - displacement) + chars.length;
-                decryptedText += convertToLetter(newPlacement);
+            else
+            {
+                decryptedText += " ";
             }
         }
         return decryptedText;
