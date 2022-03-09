@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class Main {
 
-    enum encryptionType {
+    private enum encryptionType {
         Caesar,
         Vigenere,
         Number,
@@ -13,29 +13,29 @@ public class Main {
         Enigma
     }
 
-    public char[] chars = { ' ', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'X', 'Y', 'Z', 'Æ', 'Ø', 'Å' };
+    private char[] chars = { ' ', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'X', 'Y', 'Z', 'Æ', 'Ø', 'Å' };
 
-    public static final String ANSI_RESET = "\u001B[0m";
-    public static final String ANSI_RED = "\u001B[31m";
-    public static final String ANSI_YELLOW = "\u001B[33m";
-    public static final String ANSI_BLUE = "\u001B[34m";
-    public static final String ANSI_GREEN = "\033[0;32m";
+    private static final String ANSI_RESET = "\u001B[0m";
+    private static final String ANSI_RED = "\u001B[31m";
+    private static final String ANSI_YELLOW = "\u001B[33m";
+    private static final String ANSI_BLUE = "\u001B[34m";
+    private static final String ANSI_GREEN = "\033[0;32m";
 
-    public encryptionType selectedEncryptionType;
-    public int selectedCaesarDisplacement;
+    private encryptionType selectedEncryptionType;
+    private int selectedCaesarDisplacement;
 
-    public Scanner sc;
+    private Scanner sc;
 
     public static void main(String[] args) {
         Main main = new Main();
         main.runProgram();
     }
-    public void runProgram() {
+    private void runProgram() {
         System.out.println("Running encryption/decryption program..");
         sc = new Scanner(System.in);
         askForCypherType();
     }
-    public void askForCypherType() {
+    private void askForCypherType() {
         System.out.println("Please enter a cypher type." + ANSI_RESET);
         System.out.println(ANSI_RED + "1" + ANSI_BLUE + ": Caesar cypher" + ANSI_RESET);
         System.out.println(ANSI_RED + "2" + ANSI_BLUE + ": Vigenère cypher" + ANSI_RESET);
@@ -67,7 +67,7 @@ public class Main {
             }
         }
     }
-    public void setEncryptOrDecrypt() {
+    private void setEncryptOrDecrypt() {
         System.out.println("Do you want to encrypt or decrypt?");
         System.out.println(ANSI_RED + "1" + ANSI_BLUE + ": Encrypt" + ANSI_RESET);
         System.out.println(ANSI_RED + "2" + ANSI_BLUE + ": Decrypt" + ANSI_RESET);
@@ -116,18 +116,18 @@ public class Main {
             }
         }
     }
-    public void setCaesarDisplacement() {
+    private void setCaesarDisplacement() {
         System.out.print("Enter how much do you want to displace the letters?: ");
         String nextIntString = sc.nextLine();
         selectedCaesarDisplacement = Integer.parseInt(nextIntString);
     }
-    public void setCaesarEncryptionString() {
+    private void setCaesarEncryptionString() {
         System.out.print("Enter text to be encrypted by the Caesar cypher: ");
         String text = sc.nextLine().toUpperCase();
         System.out.println(ANSI_GREEN + "Encrypted text: " + ANSI_RESET + encryptCaesarCypher(text, selectedCaesarDisplacement));
         askToRunAgain();
     }
-    public String encryptCaesarCypher(String text, int displacement) {
+    private String encryptCaesarCypher(String text, int displacement) {
         String encryptedText = "";
         for (int i = 0; i < text.length(); i++) {
             if (convertToNumber(text.charAt(i)) != 0)
@@ -145,18 +145,6 @@ public class Main {
             }
         }
         return encryptedText;
-    }
-    public int convertToNumber(char ch) {
-        int returnValue = -1;
-        for (int i = 0; i < chars.length; i++) {
-            if (ch == chars[i]) {
-                returnValue = i;
-            }
-        }
-        return returnValue;
-    }
-    public char convertToLetter(int number) {
-        return chars[number];
     }
     public void setCaesarDecryptionString() {
         System.out.print("Enter text to be decrypted by the Caesar cypher: ");
@@ -183,6 +171,18 @@ public class Main {
             }
         }
         return decryptedText;
+    }
+    private int convertToNumber(char ch) {
+        int returnValue = -1;
+        for (int i = 0; i < chars.length; i++) {
+            if (ch == chars[i]) {
+                returnValue = i;
+            }
+        }
+        return returnValue;
+    }
+    private char convertToLetter(int number) {
+        return chars[number];
     }
     public void askToRunAgain() {
         boolean answeredYesNo = false;
